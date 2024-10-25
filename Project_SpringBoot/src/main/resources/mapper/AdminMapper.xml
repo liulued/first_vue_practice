@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lixin.firstSpring.dao.AdminDao">
+
+    <resultMap id="AdminMap" type="com.lixin.firstSpring.entity.Admin">
+        <result property="adminName" column="name"></result>
+    </resultMap>
+
+    <!--方法二：基于xml的方式-->
+    <select id="getAdmin" resultMap="AdminMap">
+        select * from admin;
+    </select>
+    <select id="findBySearch" resultMap="AdminMap">
+        select * from admin
+        <where>
+            <if test="parms!=null and parms.name!=null and parms.name!=''">
+                and name like concat('%',#{parms.name},'%')
+            </if>
+            <if test="parms!=null and parms.sex!=null and parms.sex!=''">
+                and name like #{parms.sex}
+            </if>
+        </where>
+    </select>
+</mapper>
