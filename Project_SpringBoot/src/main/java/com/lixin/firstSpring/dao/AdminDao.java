@@ -3,6 +3,7 @@ package com.lixin.firstSpring.dao;
 import com.lixin.firstSpring.entity.Admin;
 import com.lixin.firstSpring.entity.Parms;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 import tk.mybatis.mapper.common.Mapper;
 
@@ -15,4 +16,9 @@ public interface AdminDao extends Mapper<Admin> {
     List<Admin> getAdmin();
 
     List<Admin> findBySearch(@Param("parms") Parms parms);
+
+    void add(Admin admin);
+
+    @Select("select * from admin where name=#{name}")
+    Admin findByName(@Param("name") String adminName);
 }

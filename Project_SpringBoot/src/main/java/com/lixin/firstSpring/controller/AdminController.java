@@ -1,13 +1,11 @@
 package com.lixin.firstSpring.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.lixin.firstSpring.common.Result;
 import com.lixin.firstSpring.entity.Admin;
 import com.lixin.firstSpring.entity.Parms;
 import com.lixin.firstSpring.service.AdminService;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -28,7 +26,30 @@ public class AdminController {
 
     @GetMapping("/search")
     public Result findBySearch(Parms parms){
-       List<Admin> list= adminService.findBySearch(parms);
-        return Result.success(list);
+       PageInfo<Admin> info= adminService.findBySearch(parms);
+        return Result.success(info);
+    }
+
+    @PostMapping()
+    public Result save(@RequestBody Admin admin){
+        if(admin.getId()==null){
+            adminService.add(admin);
+        }else{
+            adminService.update(admin);
+        }
+
+        return Result.success();
+    }
+
+    @DeleteMapping("/{id}")
+    public Result delete(@PathVariable Integer id){
+        adminService.delete(id);
+        return Result.success();
+    }
+
+    @PostMapping("/login")
+    public Result login(@RequestBody Admin admin){
+        Admin loginUser=adminService.login(admin);
+        return Result.success(loginUser);
     }
 }

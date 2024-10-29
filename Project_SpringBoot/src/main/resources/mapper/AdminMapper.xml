@@ -6,6 +6,8 @@
         <result property="adminName" column="name"></result>
     </resultMap>
 
+
+
     <!--方法二：基于xml的方式-->
     <select id="getAdmin" resultMap="AdminMap">
         select * from admin;
@@ -17,8 +19,14 @@
                 and name like concat('%',#{parms.name},'%')
             </if>
             <if test="parms!=null and parms.sex!=null and parms.sex!=''">
-                and name like #{parms.sex}
+                and sex like #{parms.sex}
             </if>
         </where>
     </select>
+
+    <!--插入新管理员-->
+    <insert id="add" parameterType="com.lixin.firstSpring.entity.Admin">
+        INSERT into admin(name, password, age, sex, phone)
+        values (#{adminName},#{sex},#{age},#{sex},#{phone})
+    </insert>
 </mapper>
