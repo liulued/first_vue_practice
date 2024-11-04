@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +23,8 @@ public class GlobalExceptionHandler {
         log.error("异常信息",e);
         return Result.error("系统异常");
     }
+
+
 
     @ExceptionHandler(CustomException.class)
     @ResponseBody

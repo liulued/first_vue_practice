@@ -24,6 +24,8 @@
         </where>
     </select>
 
+
+
     <!--插入新管理员-->
     <insert id="add" parameterType="com.lixin.firstSpring.entity.Admin">
         INSERT into admin(name, password, age, sex, phone)
