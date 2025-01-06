@@ -2,6 +2,7 @@ package com.lixin.firstSpring.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.lixin.firstSpring.common.JwtTokenUtils;
 import com.lixin.firstSpring.common.Result;
 import com.lixin.firstSpring.dao.AdminDao;
 import com.lixin.firstSpring.entity.Admin;
@@ -82,6 +83,13 @@ public class AdminService {
             throw new CustomException("用户名或者密码错误，禁止登录");
         }
         //如果查出来了，就传回提示信息
+        //生成当前登录用户的token，和用户信息一起返回到前台
+        String token = JwtTokenUtils.getToken(user.getId().toString(), user.getPassword());
+        user.setToken(token);
         return user;
+    }
+
+    public Admin findById(Integer id) {
+        return adminDao.selectByPrimaryKey(id);
     }
 }

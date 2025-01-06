@@ -5,10 +5,16 @@ import com.lixin.firstSpring.common.Result;
 import com.lixin.firstSpring.entity.Admin;
 import com.lixin.firstSpring.entity.Parms;
 import com.lixin.firstSpring.service.AdminService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 
 @CrossOrigin
 @RestController
@@ -16,6 +22,8 @@ import java.util.List;
 public class AdminController {
     @Resource
     private AdminService adminService;
+
+    private static final Logger log= LoggerFactory.getLogger(AdminController.class);
 
 
     @GetMapping()
@@ -26,6 +34,7 @@ public class AdminController {
 
     @GetMapping("/search")
     public Result findBySearch(Parms parms){
+        log.info("拦截器已运行，正式调用接口内部，查询管理员信息");
        PageInfo<Admin> info= adminService.findBySearch(parms);
         return Result.success(info);
     }
@@ -50,6 +59,15 @@ public class AdminController {
     @PostMapping("/login")
     public Result login(@RequestBody Admin admin){
         Admin loginUser=adminService.login(admin);
-        return Result.success(loginUser);
+        Map<String,Object> map=new HashMap<>();
+        map.put("name",admin.getAdminName());
+        map.put("password", admin.getPassword());
+        return Result.success(map);
+    }
+
+    @PostMapping("/register")
+    public Result register(@RequestBody Admin admin){
+        adminService.add(admin);
+        return Result.success();
     }
 }
